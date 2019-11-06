@@ -1,0 +1,93 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+
+/** Inline closue function */
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+/** Example 1 - Example 1, Example 2, Example 3, Example 4 same
+Route::get('/examples/assign/', function () {
+    return view('laracast', [
+        'name' => 'Example 1'
+    ]);
+});
+*/
+
+/** Example 2 - Example 1, Example 2, Example 3, Example 4 same
+Route::get('/examples/assign/', function () {
+    $name = 'Example 2';
+    return view('laracast', [
+        'name' => $name
+    ]);
+});
+*/
+
+/** Example 3 - Example 1, Example 2, Example 3, Example 4 same
+Route::get('/examples/assign/', function () {
+    return view('examples.assign')->with('name', 'Example 3');
+});
+*/
+
+/** Example 4 - Example 1, Example 2, Example 3, Example 4 same */
+Route::get('/examples/assign/', function () {
+    $name = 'Example 4';
+    return view('examples.assign', compact('name'));
+});
+
+/** Example 5 - Same as Example 4, but passes array and correct way of looping
+ object, arrays in blade view */
+Route::get('/examples/tasks', function () {
+    $tasks = [
+        'red',
+        'pink',
+        'green',
+        'brown',
+        'red'
+    ];
+    return view('examples.tasks', compact('tasks'));
+});
+
+/** Example - get single task by id using query builder */
+Route::get('/examples/tasks/using-query-builder/{task}', function ($id) {
+    /* Using DB sql query builder */
+    $task = DB::table('tasks')->find($id);
+    // dd($tasks);
+    return view('examples.tasks.index', compact('task'));
+});
+
+/** Example - get single task by id using eloquent model */
+Route::get('/examples/tasks/using-eloquent-model/{task}', function ($id) {
+    /* Using DB sql query builder */
+    $task = App\Task::find($id);
+    // dd($tasks);
+    return view('examples.tasks.index', compact('task'));
+});
+
+/** Example - show tasks by query builder */
+Route::get('/examples/tasks/show/using-query-builder', function () {
+    /* Using DB sql query builder */
+    $tasks = DB::table('tasks')->get();
+    // dd($tasks);
+    return view('examples.tasks.show', compact('tasks'));
+});
+
+/** Example - show tasks  by eloquent model */
+Route::get('/examples/tasks/show/using-eloquent-model', function () {
+    /* Using Eloquent Model */
+    $tasks = App\Task::all();
+    // dd($tasks);
+    return view('examples.tasks.show', compact('tasks'));
+});
